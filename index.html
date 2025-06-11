@@ -93,7 +93,7 @@
             <tbody class="u-custom-font u-gradient u-table-body u-table-body-1">
               <tr style="height: 57px;">
                 <td class="u-border-3 u-border-color-var u-table-cell u-table-cell-1">Mais vitórias</td>
-                <td class="u-border-3 u-border-color-var u-table-cell u-table-cell-2"> LOLOLOL</td>
+                <td class="u-border-3 u-border-color-var u-table-cell u-table-cell-2" id="mais-vitorias">LOLOLOL</td>
               </tr>
               <tr style="height: 57px;">
                 <td class="u-border-3 u-border-color-var u-table-cell u-table-cell-3">Mais derrotas </td>
@@ -125,5 +125,11 @@
     
     
     <script src="scripts.js" defer=""></script>
+
+    <script>
+    google.script.run.withSuccessHandler(function (valor) {
+      document.getElementById("mais-vitorias").innerText = valor;
+    }).getValorA2();
+    </script>
   
 </body></html>
