@@ -127,9 +127,16 @@
     <script src="scripts.js" defer=""></script>
 
     <script>
-    google.script.run.withSuccessHandler(function (valor) {
-      document.getElementById("mais-vitorias").innerText = valor;
-    }).getValorA2();
+      fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS3oXI1EJ4R1_6v01yvr192h5ZKTCzb5pWBgtNMNYLY3eUDcpHkY7ukunSW8agGtxe_q5M9pmW9dykN/pub?output=csv")
+        .then(response => response.text())
+        .then(csv => {
+          const linhas = csv.split("\n");   // Divide em linhas
+          if (linhas.length >= 2) {
+            const linha2 = linhas[1].split(",");  // Segunda linha (índice 1), separada por vírgula
+            const valorA2 = linha2[0];            // Primeira coluna (índice 0) => célula A2
+            document.getElementById("mais-vitorias").innerText = valorA2;
+          }
+        });
     </script>
   
 </body></html>
