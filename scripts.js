@@ -87,9 +87,9 @@ function preencherRivalidade(dados, idElemento) {
   const contagem = {};
 
   for (const linha of dados) {
-    const player1 = linha[1];
-    const player2 = linha[2];
-    const winner = linha[3];
+    const player1 = linha[4];
+    const player2 = linha[5];
+    const winner = linha[6];
 
     if (!player1 || !player2 || !winner) continue;
 
