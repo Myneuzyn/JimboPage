@@ -8,9 +8,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   const linhas = await fetchCSV(csvUrl);
   const dados = parseCSV(linhas);
 
-  preencherMaisVitorias(dados, 1, "mais-vitorias");
-  preencherMaisDerrotas(dados, 2, "mais-derrotas");
-  preencherEstatisticaSomando(dados, [1, 2], "mais-partidas", "Mais partidas");
+  preencherMaisVitorias(dados, "mais-vitorias");
+  preencherMaisDerrotas(dados, "mais-derrotas");
+  preencherMaisPartidas(dados, "mais-partidas");
 });
 // --------------------------------------------------------------------------------
 
