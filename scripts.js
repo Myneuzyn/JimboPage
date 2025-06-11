@@ -1,6 +1,33 @@
 ﻿// script.js
 
 // --------------------------------------------------------------------------------
+// Preencher os valores do stats
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS3oXI1EJ4R1_6v01yvr192h5ZKTCzb5pWBgtNMNYLY3eUDcpHkY7ukunSW8agGtxe_q5M9pmW9dykN/pub?output=csv")
+    .then(response => response.text())
+    .then(csv => {
+      const linhas = csv.trim().split("\n");
+
+      let maiorNome = "";
+      let maiorVitorias = -Infinity;
+
+      for (let i = 1; i < linhas.length; i++) {
+        const colunas = linhas[i].split(",");
+        const nome = colunas[0];
+        const vitorias = parseInt(colunas[1]);
+
+        if (!isNaN(vitorias) && vitorias > maiorVitorias) {
+          maiorVitorias = vitorias;
+          maiorNome = nome;
+        }
+      }
+
+      document.getElementById("mais-vitorias").innerText = `${maiorNome} (${maiorVitorias})`;
+    });
+});
+// --------------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------------
 //Impedir o dropbox de repetir o player
 const select1 = document.getElementById('select-d087');
 const select2 = document.getElementById('select-4333');
