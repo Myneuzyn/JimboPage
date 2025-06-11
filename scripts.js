@@ -1,49 +1,88 @@
 ﻿// script.js
 
 // --------------------------------------------------------------------------------
-// Preencher os valores do stats
-document.addEventListener("DOMContentLoaded", function () {
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS3oXI1EJ4R1_6v01yvr192h5ZKTCzb5pWBgtNMNYLY3eUDcpHkY7ukunSW8agGtxe_q5M9pmW9dykN/pub?output=csv")
-    .then(response => response.text())
-    .then(csv => {
-      const linhas = csv.trim().split("\n");
+// Preencher estatisticas
+document.addEventListener("DOMContentLoaded", async function () {
+  const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3oXI1EJ4R1_6v01yvr192h5ZKTCzb5pWBgtNMNYLY3eUDcpHkY7ukunSW8agGtxe_q5M9pmW9dykN/pub?output=csv";
 
-      // Maior vitórias
-      let nomeMaiorVitorias = "";
-      let maiorVitorias = -Infinity;
+  const linhas = await fetchCSV(csvUrl);
+  const dados = parseCSV(linhas);
 
-      for (let i = 1; i < linhas.length; i++) {
-        const colunas = linhas[i].split(",");
-        const nome = colunas[0];
-        const vitorias = parseInt(colunas[1]);
-
-        if (!isNaN(vitorias) && vitorias > maiorVitorias) {
-          maiorVitorias = vitorias;
-          nomeMaiorVitorias = nome;
-        }
-      }
-
-      document.getElementById("mais-vitorias").innerText = `${nomeMaiorVitorias} (${maiorVitorias})`;
-
-      // Maior derrotas
-      let nomeMaiorDerrotas = "";
-      let maiorDerrotas = -Infinity;
-
-      for (let i = 1; i < linhas.length; i++) {
-        const colunas = linhas[i].split(",");
-        const nome = colunas[0];
-        const derrotas = parseInt(colunas[2]);
-
-        if (!isNaN(derrotas) && derrotas > maiorDerrotas) {
-          maiorDerrotas = derrotas;
-          nomeMaiorDerrotas = nome;
-        }
-      }
-
-      document.getElementById("mais-derrotas").innerText = `${nomeMaiorDerrotas} (${maiorDerrotas})`;
-    });
+  preencherMaisVitorias(dados, 1, "mais-vitorias");
+  preencherMaisDerrotas(dados, 2, "mais-derrotas");
+  preencherEstatisticaSomando(dados, [1, 2], "mais-partidas", "Mais partidas");
 });
 // --------------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------------
+// --- Funções utilitárias ---
+async function fetchCSV(url) {
+  const response = await fetch(url);
+  const texto = await response.text();
+  return texto.trim().split("\n");
+}
+
+function parseCSV(linhas) {
+  return linhas.slice(1).map(linha => linha.split(",")); // Remove cabeçalho
+}
+// --------------------------------------------------------------------------------
+
+function preencherMaisVitorias(dados, idElemento) {
+  let maiorValor = -Infinity;
+  let nome = "";
+  const indiceColunaVitorias = 1;
+
+  for (const linha of dados) {
+    const valor = parseInt(linha[indiceColunaVitorias]);
+    if (!isNaN(valor) && valor > maiorValor) {
+      maiorValor = valor;
+      nome = linha[0];
+    }
+  }
+
+  document.getElementById(idElemento).innerText = `${nome} (${maiorValor})`;
+}
+function preencherMaisDerrotas(dados, idElemento) {
+  let maiorValor = -Infinity;
+  let nome = "";
+  const indiceColunaDerrotas = 2;
+
+  for (const linha of dados) {
+    const valor = parseInt(linha[indiceColunaDerrotas]);
+    if (!isNaN(valor) && valor > maiorValor) {
+      maiorValor = valor;
+      nome = linha[0];
+    }
+  }
+
+  document.getElementById(idElemento).innerText = `${nome} (${maiorValor})`;
+}
+
+function preencherMaisPartidas(dados, idElemento) {
+  let maiorTotal = -Infinity;
+  let nome = "";
+  const indiceColunaVitorias = 1;
+  const indiceColunaDerrotas = 2;
+
+  for (const linha of dados) {
+    let total = 0;
+    for (const col of [indiceColunaVitorias, indiceColunaDerrotas]) {
+      const val = parseInt(linha[col]);
+      if (!isNaN(val)) {
+        total += val;
+      }
+    }
+
+    if (total > maiorTotal) {
+      maiorTotal = total;
+      nome = linha[0];
+    }
+  }
+
+  document.getElementById(idElemento).innerText = `${nome} (${maiorTotal})`;
+}
+// --------------------------------------------------------------------------------
+
 
 // --------------------------------------------------------------------------------
 //Impedir o dropbox de repetir o player
