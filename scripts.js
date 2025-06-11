@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   preencherMaisVitorias(dados, "mais-vitorias");
   preencherMaisDerrotas(dados, "mais-derrotas");
   preencherMaisPartidas(dados, "mais-partidas");
+  preencherRivalidade(dados, "rivalidade");
 });
 // --------------------------------------------------------------------------------
 
@@ -81,6 +82,41 @@ function preencherMaisPartidas(dados, idElemento) {
 
   document.getElementById(idElemento).innerText = `${nome} (${maiorTotal})`;
 }
+
+function preencherRivalidade(dados, idElemento) {
+  const contagem = {};
+
+  for (const linha of dados) {
+    const player1 = linha[1];
+    const player2 = linha[2];
+    const winner = linha[3];
+
+    if (!player1 || !player2 || !winner) continue;
+
+    const loser = (player1 === winner) ? player2 : player1;
+    const chave = `${loser}->${winner}`;
+
+    contagem[chave] = (contagem[chave] || 0) + 1;
+  }
+
+  // Encontrar a chave com o maior número de derrotas
+  let maiorChave = "";
+  let maiorValor = -Infinity;
+
+  for (const chave in contagem) {
+    if (contagem[chave] > maiorValor) {
+      maiorValor = contagem[chave];
+      maiorChave = chave;
+    }
+  }
+
+  if (maiorChave) {
+    document.getElementById(idElemento).innerText = `${maiorChave} (${maiorValor} derrotas)`;
+  } else {
+    document.getElementById(idElemento).innerText = `-`;
+  }
+}
+
 // --------------------------------------------------------------------------------
 
 
