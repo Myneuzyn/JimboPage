@@ -1,0 +1,118 @@
+.u-section-1 .u-sheet-1 {
+  min-height: 589px;
+}
+
+.u-section-1 .u-text-1 {
+  font-family: balatro;
+  font-size: 1.875rem;
+  margin: 20px 846px 0 20px;
+}
+
+.u-section-1 .u-form-1 {
+  height: 67px;
+  width: 538px;
+  background-image: linear-gradient(rgba(71,138,201,0.4), rgba(219,84,90,0.6705882352941176));
+  border-style: solid;
+  --border-color-var: #163549;
+  margin: 20px 559px 60px 10px;
+}
+
+.u-section-1 .u-form-group-1 {
+  margin-left: 0;
+}
+
+.u-section-1 .u-label-1 {
+  font-family: balatro;
+  font-size: 1.125rem;
+  letter-spacing: 0px;
+  line-height: 1;
+}
+
+.u-section-1 .u-input-1 {
+  --radius: 5px;
+  background-image: none;
+  box-shadow: 3px 3px 0px 0px rgba(66,84,101,1);
+}
+
+.u-section-1 .u-form-group-2 {
+  margin-left: 0;
+}
+
+.u-section-1 .u-label-2 {
+  font-family: balatro;
+  font-size: 1.125rem;
+  letter-spacing: 0px;
+  line-height: 1;
+}
+
+.u-section-1 .u-input-2 {
+  --radius: 5px;
+  background-image: none;
+  box-shadow: 3px 3px 0px 0px rgba(66,84,101,1);
+}
+
+.u-section-1 .u-btn-1 {
+  background-image: none;
+  --color-var: #91d485;
+  --radius: 5px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  --hover-color-var: #81e474;
+  --active-color-var: #5fda3b;
+  box-shadow: 3px 3px 0px 0px rgba(66,84,101,1);
+  padding: 7px 30px 8px 29px;
+}
+
+@media (max-width: 1199px) {
+  .u-section-1 .u-text-1 {
+    margin-right: 666px;
+  }
+
+  .u-section-1 .u-form-1 {
+    margin-right: 402px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-1 .u-text-1 {
+    margin-right: 446px;
+  }
+
+  .u-section-1 .u-form-1 {
+    margin-right: 182px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-text-1 {
+    margin-right: 266px;
+  }
+
+  .u-section-1 .u-form-1 {
+    margin-right: 2px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-text-1 {
+    margin-right: 66px;
+  }
+
+  .u-section-1 .u-form-1 {
+    margin-right: 0;
+    width: 340px;
+  }
+}@font-face {
+  font-family: 'balatro';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/balatro.ttf);
+}
+/* page-custom-fonts */
+@font-face {
+  font-family: 'balatro';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/balatro.ttf);
+}
