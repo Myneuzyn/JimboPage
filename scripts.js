@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(csv => {
       const linhas = csv.trim().split("\n");
 
-      let maiorNome = "";
+      // Maior vitórias
+      let nomeMaiorVitorias = "";
       let maiorVitorias = -Infinity;
 
       for (let i = 1; i < linhas.length; i++) {
@@ -18,11 +19,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!isNaN(vitorias) && vitorias > maiorVitorias) {
           maiorVitorias = vitorias;
-          maiorNome = nome;
+          nomeMaiorVitorias = nome;
         }
       }
 
-      document.getElementById("mais-vitorias").innerText = `${maiorNome} (${maiorVitorias})`;
+      document.getElementById("mais-vitorias").innerText = `${nomeMaiorVitorias} (${maiorVitorias})`;
+
+      // Maior derrotas
+      let nomeMaiorDerrotas = "";
+      let maiorDerrotas = -Infinity;
+
+      for (let i = 1; i < linhas.length; i++) {
+        const colunas = linhas[i].split(",");
+        const nome = colunas[0];
+        const derrotas = parseInt(colunas[2]);
+
+        if (!isNaN(derrotas) && derrotas > maiorDerrotas) {
+          maiorDerrotas = derrotas;
+          nomeMaiorDerrotas = nome;
+        }
+      }
+
+      document.getElementById("mais-derrotas").innerText = `${nomeMaiorDerrotas} (${maiorDerrotas})`;
     });
 });
 // --------------------------------------------------------------------------------
