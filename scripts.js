@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   preencherMaisDerrotas(dados, "mais-derrotas");
   preencherMaisPartidas(dados, "mais-partidas");
   preencherRivalidade(dados, "rivalidade");
+  preencherMaiorWinstreak(dados, "maior-winstreak");
+  preencherMaiorLosestreak(dados, "maior-losestreak");
 });
 // --------------------------------------------------------------------------------
 
@@ -116,6 +118,78 @@ function preencherRivalidade(dados, idElemento) {
     document.getElementById(idElemento).innerText = `-`;
   }
 }
+
+function preencherMaiorWinstreak(dados, idElemento) {
+  // Ordenar por data (coluna 8)
+  dados.sort((a, b) => new Date(a[8]) - new Date(b[8]));
+
+  const streaks = {};       // streaks[player] = { atual: n, max: n }
+  let maiorStreak = 0;
+  let jogadorMaiorStreak = "";
+
+  for (const linha of dados) {
+    const vencedor = linha[6];
+    if (!vencedor) continue;
+
+    // Inicializa se necessário
+    if (!streaks[vencedor]) streaks[vencedor] = { atual: 0, max: 0 };
+
+    // Atualiza o streak de vitória
+    streaks[vencedor].atual += 1;
+    streaks[vencedor].max = Math.max(streaks[vencedor].max, streaks[vencedor].atual);
+
+    // Zera streak dos outros
+    for (const jogador in streaks) {
+      if (jogador !== vencedor) {
+        streaks[jogador].atual = 0;
+      }
+    }
+
+    // Atualiza o maior streak
+    if (streaks[vencedor].max > maiorStreak) {
+      maiorStreak = streaks[vencedor].max;
+      jogadorMaiorStreak = vencedor;
+    }
+  }
+
+  document.getElementById(idElemento).innerText = `${jogadorMaiorStreak} (${maiorStreak})`;
+}
+
+function preencherMaiorLosestreak(dados, idElemento) {
+  // Ordenar por data (coluna 4)
+  dados.sort((a, b) => new Date(a[8]) - new Date(b[8]));
+
+  const streaks = {};
+  let maiorStreak = 0;
+  let jogadorMaiorStreak = "";
+
+  for (const linha of dados) {
+    const player1 = linha[4];
+    const player2 = linha[5];
+    const winner = linha[6];
+    if (!player1 || !player2 || !winner) continue;
+
+    const loser = (winner === player1) ? player2 : player1;
+
+    // Inicializa se necessário
+    if (!streaks[loser]) streaks[loser] = { atual: 0, max: 0 };
+    streaks[loser].atual += 1;
+    streaks[loser].max = Math.max(streaks[loser].max, streaks[loser].atual);
+
+    // Zera streak de quem venceu
+    if (!streaks[winner]) streaks[winner] = { atual: 0, max: 0 };
+    streaks[winner].atual = 0;
+
+    // Atualiza maior streak
+    if (streaks[loser].max > maiorStreak) {
+      maiorStreak = streaks[loser].max;
+      jogadorMaiorStreak = loser;
+    }
+  }
+
+  document.getElementById(idElemento).innerText = `${jogadorMaiorStreak} (${maiorStreak})`;
+}
+
 
 // --------------------------------------------------------------------------------
 
