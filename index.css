@@ -1,11 +1,11 @@
 .u-section-1 .u-sheet-1 {
-  min-height: 581px;
+  min-height: 616px;
 }
 
 .u-section-1 .u-text-1 {
   font-family: balatro;
   font-size: 1.875rem;
-  margin: 20px 846px 0 20px;
+  margin: 20px 909px 0 -43px;
 }
 
 .u-section-1 .u-text-2 {
@@ -15,12 +15,11 @@
 }
 
 .u-section-1 .u-form-1 {
-  height: 67px;
-  width: 538px;
+  height: 97px;
   background-image: linear-gradient(rgba(71,138,201,0.6313725490196078), rgba(219,84,90,0.6705882352941176));
   border-style: solid;
   --border-color-var: #163549;
-  margin: 20px 559px 0 10px;
+  margin: 20px 592px 0 -43px;
 }
 
 .u-section-1 .u-form-group-1 {
@@ -70,8 +69,8 @@
 }
 
 .u-section-1 .u-table-1 {
-  width: 400px;
-  margin: -97px 90px 0 auto;
+  width: 511px;
+  margin: -97px 0 0 auto;
 }
 
 .u-block-fde8-62 {
@@ -172,8 +171,8 @@
 }
 
 .u-section-1 .u-table-2 {
-  width: 538px;
-  margin: -87px auto 51px 10px;
+  width: 591px;
+  margin: -87px auto 58px -43px;
 }
 
 .u-block-fde8-23 {
@@ -279,7 +278,8 @@
 
 @media (max-width: 1199px) {
   .u-section-1 .u-text-1 {
-    margin-right: 666px;
+    margin-right: 709px;
+    margin-left: 20px;
   }
 
   .u-section-1 .u-text-2 {
@@ -288,8 +288,8 @@
   }
 
   .u-section-1 .u-form-1 {
-    margin-right: 402px;
-    margin-left: 0;
+    width: 538px;
+    margin-right: 392px;
   }
 
   .u-section-1 .u-table-2 {
@@ -301,7 +301,7 @@
 
 @media (max-width: 991px) {
   .u-section-1 .u-text-1 {
-    margin-right: 446px;
+    margin-right: 489px;
   }
 
   .u-section-1 .u-text-2 {
@@ -310,13 +310,13 @@
   }
 
   .u-section-1 .u-form-1 {
-    margin-right: 182px;
+    margin-right: 172px;
   }
 }
 
 @media (max-width: 767px) {
   .u-section-1 .u-text-1 {
-    margin-right: 266px;
+    margin-right: 309px;
   }
 
   .u-section-1 .u-text-2 {
@@ -327,17 +327,19 @@
 
   .u-section-1 .u-form-1 {
     margin-top: -74px;
-    margin-right: 2px;
+    margin-right: 0;
+    margin-left: 0;
   }
 
   .u-section-1 .u-table-2 {
+    width: 540px;
     margin-bottom: -79px;
   }
 }
 
 @media (max-width: 575px) {
   .u-section-1 .u-text-1 {
-    margin-right: 66px;
+    margin-right: 109px;
   }
 
   .u-section-1 .u-text-2 {
@@ -348,13 +350,11 @@
   .u-section-1 .u-form-1 {
     width: 340px;
     margin-top: -121px;
-    margin-right: 0;
   }
 
   .u-section-1 .u-table-1 {
     width: 340px;
     margin-top: -59px;
-    margin-right: 0;
   }
 
   .u-section-1 .u-table-2 {
