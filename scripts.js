@@ -323,7 +323,7 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
         updateOptions(select2, select1);
 
         // Restaura o botão
-        botao.disabled = false;
+        botao.style.display = "inline-block";
         botao.textContent = "Enviar";
       })
       .catch(error => {
