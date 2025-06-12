@@ -280,6 +280,11 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
     return;
   }
 
+  const botao = document.getElementById("botao-enviar");
+
+  botao.disabled = true;
+  botao.textContent = "Enviando...";
+
   // Cria o corpo do JSON para enviar
   const data = {
     action: "addMatch",
@@ -317,7 +322,12 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
     .catch(error => {
       console.error("❌ Erro ao enviar:", error);
       alert("Erro ao enviar resultado!");
+
     });
+
+  // Atualiza o botão
+  botao.textContent = "Enviar";
+  botao.disabled = false;
 });
 
 
