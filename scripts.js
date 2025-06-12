@@ -268,8 +268,12 @@ select2.addEventListener('change', () => updateOptions(select2, select1));
 document.getElementById("botao-enviar").addEventListener("click", function (e) {
   e.preventDefault(); // impede o envio padrão
 
-  const perdedor = document.getElementById("select-d087").value;
-  const vencedor = document.getElementById("select-4333").value;
+  const botao = document.getElementById("botao-enviar");
+  const perdedorSelect = document.getElementById("select-d087");
+  const vencedorSelect = document.getElementById("select-4333");
+
+  const perdedor = perdedorSelect.value;
+  const vencedor = vencedorSelect.value;
 
   if (perdedor === vencedor) {
     alert("O perdedor e o vencedor não podem ser a mesma pessoa!");
@@ -282,13 +286,19 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
     player1: vencedor,
     player2: perdedor,
     winner: vencedor,
-    date: new Date().toISOString() // data atual no formato ISO
+    date: new Date().toISOString()
   };
 
   console.log("📤 Enviando dados:", data);
 
   // Substitua essa URL pela URL do seu Web App
   const endpoint = "https://vercel-proxy-myneuzyn.vercel.app/api/proxy";
+
+  // Desabilita o botão por 1 minuto (60.000 ms)
+  botao.disabled = true;
+  setTimeout(() => {
+    botao.disabled = false;
+  }, 60000);
 
   fetch(endpoint, {
     method: "POST",
@@ -301,11 +311,19 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
     .then(text => {
       console.log("✅ Resposta do servidor:", text);
       alert("Resultado enviado com sucesso!");
+
+      // Limpa os selects
+      perdedorSelect.selectedIndex = 0;
+      vencedorSelect.selectedIndex = 0;
     })
     .catch(error => {
       console.error("❌ Erro ao enviar:", error);
       alert("Erro ao enviar resultado!");
+
+      // Reabilita o botão em caso de erro
+      botao.disabled = false;
     });
 });
+
 
 // --------------------------------------------------------------------------------
