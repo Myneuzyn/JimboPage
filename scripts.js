@@ -247,8 +247,8 @@ function updateOptions(changedSelect, otherSelect) {
     option.disabled = false;
   });
 
-  // Desabilita a opção selecionada no outro select
-  if (selectedValue) {
+  // Só desabilita se o valor selecionado for válido (diferente de "-")
+  if (selectedValue && selectedValue !== "-") {
     const optionToDisable = Array.from(otherSelect.options).find(
       option => option.value === selectedValue
     );
@@ -257,6 +257,7 @@ function updateOptions(changedSelect, otherSelect) {
     }
   }
 }
+
 
 select1.addEventListener('change', () => updateOptions(select1, select2));
 select2.addEventListener('change', () => updateOptions(select2, select1));
@@ -303,19 +304,20 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
     .then(response => response.text())
     .then(text => {
       console.log("✅ Resposta do servidor:", text);
-      alert("Resultado enviado com sucesso! ", vencedor, " venceu ", perdedor);
+      alert(`Resultado enviado com sucesso! ${vencedor} venceu ${perdedor}.`);
 
       // Limpa os selects
       perdedorSelect.selectedIndex = 0;
       vencedorSelect.selectedIndex = 0;
+
+      // Atualiza o estado das opções após reset
+      updateOptions(select1, select2);
+      updateOptions(select2, select1);
     })
     .catch(error => {
       console.error("❌ Erro ao enviar:", error);
       alert("Erro ao enviar resultado!");
     });
-
-  updateOptions(select1, select2)
-  updateOptions(select2, select1)
 });
 
 
