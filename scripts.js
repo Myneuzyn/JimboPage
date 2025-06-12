@@ -120,75 +120,115 @@ function preencherRivalidade(dados, idElemento) {
 }
 
 function preencherMaiorWinstreak(dados, idElemento) {
-  // Ordenar por data (coluna 8)
-  dados.sort((a, b) => new Date(a[8]) - new Date(b[8]));
-
-  const streaks = {};       // streaks[player] = { atual: n, max: n }
-  let maiorStreak = 0;
-  let jogadorMaiorStreak = "";
-
-  for (const linha of dados) {
-    const vencedor = linha[6];
-    if (!vencedor) continue;
-
-    // Inicializa se necessário
-    if (!streaks[vencedor]) streaks[vencedor] = { atual: 0, max: 0 };
-
-    // Atualiza o streak de vitória
-    streaks[vencedor].atual += 1;
-    streaks[vencedor].max = Math.max(streaks[vencedor].max, streaks[vencedor].atual);
-
-    // Zera streak dos outros
-    for (const jogador in streaks) {
-      if (jogador !== vencedor) {
-        streaks[jogador].atual = 0;
-      }
-    }
-
-    // Atualiza o maior streak
-    if (streaks[vencedor].max > maiorStreak) {
-      maiorStreak = streaks[vencedor].max;
-      jogadorMaiorStreak = vencedor;
-    }
-  }
-
-  document.getElementById(idElemento).innerText = `${jogadorMaiorStreak} (${maiorStreak})`;
-}
-
-function preencherMaiorLosestreak(dados, idElemento) {
-  // Ordenar por data (coluna 4)
-  dados.sort((a, b) => new Date(a[8]) - new Date(b[8]));
+  // Ordena os dados por data (coluna 8)
+  dados.sort((a, b) => new Date(a[7]) - new Date(b[7]));
 
   const streaks = {};
   let maiorStreak = 0;
   let jogadorMaiorStreak = "";
 
   for (const linha of dados) {
+    const partidaId = linha[3];
     const player1 = linha[4];
     const player2 = linha[5];
     const winner = linha[6];
-    if (!player1 || !player2 || !winner) continue;
 
-    const loser = (winner === player1) ? player2 : player1;
+    if (!player1 || !player2 || !winner) {
+      console.log(`⚠️ Pulando partida ${partidaId} por dados ausentes.`);
+      continue;
+    }
 
-    // Inicializa se necessário
-    if (!streaks[loser]) streaks[loser] = { atual: 0, max: 0 };
+    console.log(`📦 Partida ${partidaId}: ${player1} vs ${player2} | Vencedor: ${winner}`);
+
+    // Inicializa participantes
+    for (const player of [player1, player2]) {
+      if (!streaks[player]) {
+        streaks[player] = { atual: 0, max: 0 };
+        console.log(`→ Inicializando streak para ${player}`);
+      }
+    }
+
+    // Verifica se winner está inicializado corretamente
+    if (!streaks[winner]) {
+      streaks[winner] = { atual: 0, max: 0 };
+    }
+
+    // Atualiza streak do vencedor
+    streaks[winner].atual += 1;
+    streaks[winner].max = Math.max(streaks[winner].max, streaks[winner].atual);
+    console.log(`✔ ${winner} venceu. Streak atual: ${streaks[winner].atual}, Máxima: ${streaks[winner].max}`);
+
+    if (streaks[winner].max > maiorStreak) {
+      maiorStreak = streaks[winner].max;
+      jogadorMaiorStreak = winner;
+      console.log(`🔥 Novo recorde: ${winner} com ${maiorStreak} vitórias seguidas`);
+    }
+
+    // Zera streak do perdedor
+    const loser = winner === player1 ? player2 : player1;
+    streaks[loser].atual = 0;
+    console.log(`✘ ${loser} perdeu. Streak resetada.`);
+    console.log("--------");
+  }
+
+  console.log(`🏆 Maior winstreak: ${jogadorMaiorStreak} (${maiorStreak})`);
+  document.getElementById(idElemento).innerText = `${jogadorMaiorStreak} (${maiorStreak})`;
+}
+
+
+function preencherMaiorLosestreak(dados, idElemento) {
+  // Ordena os dados por data (coluna 8)
+  dados.sort((a, b) => new Date(a[7]) - new Date(b[7]));
+
+  const streaks = {};
+  let maiorStreak = 0;
+  let jogadorMaiorStreak = "";
+
+  for (const linha of dados) {
+    const partidaId = linha[3];
+    const player1 = linha[4];
+    const player2 = linha[5];
+    const winner = linha[6];
+
+    if (!player1 || !player2 || !winner) {
+      console.log(`⚠️ Pulando partida ${partidaId} por dados ausentes.`);
+      continue;
+    }
+
+    console.log(`📦 Partida ${partidaId}: ${player1} vs ${player2} | Vencedor: ${winner}`);
+
+    // Inicializa participantes
+    for (const player of [player1, player2]) {
+      if (!streaks[player]) {
+        streaks[player] = { atual: 0, max: 0 };
+        console.log(`→ Inicializando streak para ${player}`);
+      }
+    }
+
+    // Perdedor
+    const loser = winner === player1 ? player2 : player1;
+
+    // Atualiza streak do perdedor
     streaks[loser].atual += 1;
     streaks[loser].max = Math.max(streaks[loser].max, streaks[loser].atual);
+    console.log(`✘ ${loser} perdeu. Losestreak atual: ${streaks[loser].atual}, Máxima: ${streaks[loser].max}`);
 
-    // Zera streak de quem venceu
-    if (!streaks[winner]) streaks[winner] = { atual: 0, max: 0 };
-    streaks[winner].atual = 0;
-
-    // Atualiza maior streak
     if (streaks[loser].max > maiorStreak) {
       maiorStreak = streaks[loser].max;
       jogadorMaiorStreak = loser;
+      console.log(`❄️ Novo recorde: ${loser} com ${maiorStreak} derrotas seguidas`);
     }
+
+    // Zera streak do vencedor
+    streaks[winner].atual = 0;
+    console.log(`✔ ${winner} venceu. Losestreak resetada.`);
+    console.log("--------");
   }
 
+  console.log(`🥶 Maior losestreak: ${jogadorMaiorStreak} (${maiorStreak})`);
   document.getElementById(idElemento).innerText = `${jogadorMaiorStreak} (${maiorStreak})`;
 }
+
 
 
 // --------------------------------------------------------------------------------
