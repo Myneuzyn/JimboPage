@@ -268,7 +268,6 @@ select2.addEventListener('change', () => updateOptions(select2, select1));
 document.getElementById("botao-enviar").addEventListener("click", function (e) {
   e.preventDefault(); // impede o envio padrão
 
-  const botao = document.getElementById("botao-enviar");
   const perdedorSelect = document.getElementById("select-d087");
   const vencedorSelect = document.getElementById("select-4333");
 
@@ -294,12 +293,6 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
   // Substitua essa URL pela URL do seu Web App
   const endpoint = "https://vercel-proxy-myneuzyn.vercel.app/api/proxy";
 
-  // Desabilita o botão por 1 minuto (60.000 ms)
-  botao.disabled = true;
-  setTimeout(() => {
-    botao.disabled = false;
-  }, 60000);
-
   fetch(endpoint, {
     method: "POST",
     headers: {
@@ -310,7 +303,7 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
     .then(response => response.text())
     .then(text => {
       console.log("✅ Resposta do servidor:", text);
-      alert("Resultado enviado com sucesso!");
+      alert("Resultado enviado com sucesso! ", vencedor, " venceu ", perdedor);
 
       // Limpa os selects
       perdedorSelect.selectedIndex = 0;
@@ -319,10 +312,10 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
     .catch(error => {
       console.error("❌ Erro ao enviar:", error);
       alert("Erro ao enviar resultado!");
-
-      // Reabilita o botão em caso de erro
-      botao.disabled = false;
     });
+
+  updateOptions(select1, select2)
+  updateOptions(select2, select1)
 });
 
 
