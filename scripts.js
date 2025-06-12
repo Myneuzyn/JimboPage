@@ -271,64 +271,68 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
 
   const perdedorSelect = document.getElementById("select-d087");
   const vencedorSelect = document.getElementById("select-4333");
-
   const perdedor = perdedorSelect.value;
   const vencedor = vencedorSelect.value;
+  const botao = document.getElementById("botao-enviar");
 
   if (perdedor === vencedor) {
     alert("O perdedor e o vencedor não podem ser a mesma pessoa!");
     return;
   }
 
-  const botao = document.getElementById("botao-enviar");
+  if (perdedor === "-" || vencedor === "-") {
+    alert("Selecione um usuário válido!");
+    return;
+  }
 
-  botao.disabled = true;
-  botao.textContent = "Enviando...";
+  // Desativa botão e mostra estado de carregamento
+  botao.style.display = "none";
 
-  // Cria o corpo do JSON para enviar
-  const data = {
-    action: "addMatch",
-    player1: vencedor,
-    player2: perdedor,
-    winner: vencedor,
-    date: new Date().toISOString()
-  };
+  // Usa setTimeout para garantir que a UI atualize antes do fetch
+  setTimeout(() => {
+    const data = {
+      action: "addMatch",
+      player1: vencedor,
+      player2: perdedor,
+      winner: vencedor,
+      date: new Date().toISOString()
+    };
 
-  console.log("📤 Enviando dados:", data);
+    console.log("📤 Enviando dados:", data);
 
-  // Substitua essa URL pela URL do seu Web App
-  const endpoint = "https://vercel-proxy-myneuzyn.vercel.app/api/proxy";
+    const endpoint = "https://vercel-proxy-myneuzyn.vercel.app/api/proxy";
 
-  fetch(endpoint, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  })
-    .then(response => response.text())
-    .then(text => {
-      console.log("✅ Resposta do servidor:", text);
-      alert(`Resultado enviado com sucesso! ${vencedor} venceu ${perdedor}.`);
-
-      // Limpa os selects
-      perdedorSelect.selectedIndex = 0;
-      vencedorSelect.selectedIndex = 0;
-
-      // Atualiza o estado das opções após reset
-      updateOptions(select1, select2);
-      updateOptions(select2, select1);
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
     })
-    .catch(error => {
-      console.error("❌ Erro ao enviar:", error);
-      alert("Erro ao enviar resultado!");
+      .then(response => response.text())
+      .then(text => {
+        console.log("✅ Resposta do servidor:", text);
+        alert(`Resultado enviado com sucesso! ${vencedor} venceu ${perdedor}.`);
 
-    });
+        // Limpa os selects
+        perdedorSelect.selectedIndex = 0;
+        vencedorSelect.selectedIndex = 0;
 
-  // Atualiza o botão
-  botao.textContent = "Enviar";
-  botao.disabled = false;
+        // Atualiza as opções disponíveis nos selects
+        updateOptions(select1, select2);
+        updateOptions(select2, select1);
+
+        // Restaura o botão
+        botao.disabled = false;
+        botao.textContent = "Enviar";
+      })
+      .catch(error => {
+        console.error("❌ Erro ao enviar:", error);
+        alert("Erro ao enviar resultado!");
+
+        botao.style.display = "inline-block";
+        botao.textContent = "Enviar";
+      });
+  }, 0);
 });
-
-
 // --------------------------------------------------------------------------------
