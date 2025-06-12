@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   preencherRivalidade(dados, "rivalidade");
   preencherMaiorWinstreak(dados, "maior-winstreak");
   preencherMaiorLosestreak(dados, "maior-losestreak");
+
+  preencherPlacar(dados);
 });
 // --------------------------------------------------------------------------------
 
@@ -29,6 +31,27 @@ function parseCSV(linhas) {
   return linhas.slice(1).map(linha => linha.split(",")); // Remove cabeçalho
 }
 // --------------------------------------------------------------------------------
+
+function preencherPlacar(dados) {
+  // Pegando as 3 primeiras linhas e 3 primeiras colunas
+  let tresPrimeirasLinhas = dados.slice(0, 3);
+  let matrizRecortada = tresPrimeirasLinhas.map(linha => linha.slice(0, 3));
+
+  // Ordenar pela segunda coluna (vitorias) de forma decrescente
+  matrizRecortada.sort((a, b) => b[1] - a[1]);
+
+  // Atribuir os valores aos elementos HTML
+  for (let i = 0; i < matrizRecortada.length; i++) {
+    let [nome, vitorias, derrotas] = matrizRecortada[i];
+    let kd = (derrotas === 0) ? vitorias : (vitorias / derrotas).toFixed(2);
+
+    document.getElementById(`Jogador${i+1}Nome`).textContent = nome;
+    document.getElementById(`Jogador${i+1}Vitorias`).textContent = vitorias;
+    document.getElementById(`Jogador${i+1}Derrotas`).textContent = derrotas;
+    document.getElementById(`Jogador${i+1}KD`).textContent = kd;
+  }
+}
+
 
 function preencherMaisVitorias(dados, idElemento) {
   let maiorValor = -Infinity;
