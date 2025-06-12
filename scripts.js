@@ -276,10 +276,36 @@ document.getElementById("botao-enviar").addEventListener("click", function (e) {
     return;
   }
 
-  // Aqui você pode usar fetch/AJAX ou salvar localmente (ex: Google Sheets API, backend, etc.)
-  console.log("Perdedor:", perdedor);
-  console.log("Vencedor:", vencedor);
+  // Cria o corpo do JSON para enviar
+  const data = {
+    action: "addMatch",
+    player1: vencedor,
+    player2: perdedor,
+    winner: vencedor,
+    date: new Date().toISOString() // data atual no formato ISO
+  };
 
-  alert("Resultado enviado!");
+  console.log("📤 Enviando dados:", data);
+
+  // Substitua essa URL pela URL do seu Web App
+  const endpoint = "https://vercel-proxy-myneuzyn.vercel.app/api/proxy";
+
+  fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => response.text())
+    .then(text => {
+      console.log("✅ Resposta do servidor:", text);
+      alert("Resultado enviado com sucesso!");
+    })
+    .catch(error => {
+      console.error("❌ Erro ao enviar:", error);
+      alert("Erro ao enviar resultado!");
+    });
 });
+
 // --------------------------------------------------------------------------------
